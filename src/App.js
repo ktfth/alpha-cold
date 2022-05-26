@@ -1,23 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from 'react';
 
 function App() {
+  const [privateKey, setPrivateKey] = useState('');
+  const [address, setAddress] = useState('');
+
+  useEffect(() => {
+    fetch('https://alpha-asset.herokuapp.com/v1/wallet')
+      .then(response => response.json())
+      .then(wallet => {
+        setPrivateKey(wallet.data.privateKey);
+        setAddress(wallet.data.address);
+      });
+  }, [setPrivateKey, setAddress]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Alpha Cold (TestNet)</h1>
+      <p>Save the information and use on transactions and balance!</p>
+      <p>Private key: {privateKey}</p>
+      <p>Address: {address}</p>
     </div>
   );
 }
