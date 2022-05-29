@@ -24,6 +24,44 @@ function Wallet() {
   );
 }
 
+function WalletMnemonic() {
+  const [password, setPassword] = useState('');
+  const [address, setAddress] = useState('');
+  const [mnemonic, setMnemonic] = useState('');
+
+  function fillPasswordInput(e) {
+    setPassword(e.target.value);
+  }
+
+  function generateMnemonic(e) {
+    if (e.keyCode === 13) {
+      fetch('https://alpha-asset.herokuapp.com/v1/wallet', {
+        method: 'POST',
+        body: JSON.stringify({
+          password,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+        .then(response => response.json())
+        .then(wallet => {
+          setAddress(wallet.data.address);
+          setMnemonic(wallet.data.mnemonic);
+        });
+    }
+  }
+
+  return (
+    <>
+      <p>Save the information to use on future!</p>
+      <input type="text" placeholder="Password" onChange={(e) => fillPasswordInput(e)} onKeyDown={(e) => generateMnemonic(e)}></input>
+      <p>Address: {address}</p>
+      <p>Mnemonic: {mnemonic}</p>
+    </>
+  );
+}
+
 function Balance() {
   const [balanceInput, setBalanceInput] = useState('');
   const [balance, setBalance] = useState('');
@@ -135,6 +173,8 @@ function App() {
   return (
     <div className="App">
       <Wallet/>
+      <hr/>
+      <WalletMnemonic/>
       <hr/>
       <Balance/>
       <hr/>
