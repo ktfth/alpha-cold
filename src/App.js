@@ -16,7 +16,7 @@ function Wallet() {
 
   return (
     <>
-      <h1>Alpha Cold (TestNet)</h1>
+      <h1>Alpha Cold (Main)</h1>
       <p>Save the information and use on transactions and balance!</p>
       <p>Private key: {privateKey}</p>
       <p>Address: {address}</p>
