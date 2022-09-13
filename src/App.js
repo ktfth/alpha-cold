@@ -26,6 +26,7 @@ function Wallet() {
 
 function WalletMnemonic() {
   const [password, setPassword] = useState('');
+  const [privateKey, setPrivateKey] = useState('');
   const [address, setAddress] = useState('');
   const [mnemonic, setMnemonic] = useState('');
 
@@ -46,6 +47,7 @@ function WalletMnemonic() {
       })
         .then(response => response.json())
         .then(wallet => {
+          setPrivateKey(wallet.data.privateKey);
           setAddress(wallet.data.address);
           setMnemonic(wallet.data.mnemonic);
         });
@@ -56,6 +58,7 @@ function WalletMnemonic() {
     <>
       <p>Save the information to use on future!</p>
       <input type="text" placeholder="Password" onChange={(e) => fillPasswordInput(e)} onKeyDown={(e) => generateMnemonic(e)}></input>
+      <p>PrivateKey: {privateKey}</p>
       <p>Address: {address}</p>
       <p>Mnemonic: {mnemonic}</p>
     </>
